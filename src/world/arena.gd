@@ -61,6 +61,7 @@ func _ready() -> void:
 	SceneLoader.current_scene = self
 	EventBus.first_game.emit()
 	add_to_group("game")
+	add_to_group("wave_manager")
 	$Background.play("default")
 	retry_button.pressed.connect(retry)
 	quit_button.pressed.connect(end_game)
@@ -68,7 +69,8 @@ func _ready() -> void:
 		player = get_tree().get_first_node_in_group("Player")
 	await get_tree().process_frame
 	if player:
-		player.connect("player_died", _game_over)
+		#player.connect("player_died", _game_over)
+		player.connect("player_revive", reset_waves)
 	if EventBus.has_signal("player_woke"):
 		EventBus.player_woke.connect(_begin_game)
 	if EventBus.has_signal("player_damaged"):
@@ -184,34 +186,29 @@ func _game_over():
 	game_over = true
 	stop_time()
 	hitless_running = false
-	await get_tree().create_timer(5.0).timeout
-	var ttxt = ""
-	if time_label:
-		ttxt = time_label.text
-	else:
-		ttxt = _format_time(elapsed)
-	$NewOver/Panel2/VBoxContainer/Panel/timelbl.text = "You survived for: " + ttxt
-	$NewOver/Panel2/VBoxContainer/Panel2/scorelbl.text = "Score: " + "%06d" % score
-	$NewOver/Panel2/VBoxContainer/Panel3/killslbl.text = "Total Kills: " + "%06d" % total_kills
-	$GameUI.visible = false
-	$NewOver.visible = true
-	$NewOver/GameoverAnim.play("fade")
-	await $NewOver/GameoverAnim.animation_finished
-	$NewOver/GameoverAnim.play("loop")
-	var enemies = $Enemies
-	if enemies:
-		for i in range(enemies.get_child_count()):
-			var child = enemies.get_child(i)
+	EventBus.score_final.emit(score)
+
+func reset_waves() -> void:
+	game_over = false
+	wave_running = false
+	
+	if is_instance_valid(enemy_container):
+		for child in enemy_container.get_children():
 			if is_instance_valid(child):
 				child.queue_free()
-	EventBus.score_final.emit(score)
+				
+	if is_instance_valid(player):
+		player.revive((left_spawn.global_position + right_spawn.global_position) / 2.0)
+				
+	_begin_game()
 
 func _start_waves() -> void:
 	current_wave = 0
 	_next_wave()
 
 func _next_wave() -> void:
-	$Wavehorn.play()
+	if has_node("Wavehorn"):
+		$Wavehorn.play()
 	EventBus.wave_survived.emit()
 	current_wave += 1
 	wave_enemies_to_spawn = int(round(wave_size_start * pow(wave_size_growth, max(0, current_wave - 1))))
@@ -219,7 +216,7 @@ func _next_wave() -> void:
 	wave_concurrent_cap = wave_concurrent_cap_base + (max(0, current_wave - 1) * wave_concurrent_cap_growth)
 	wave_spawn_interval = max(wave_min_spawn_interval, wave_spawn_interval_start * pow(wave_spawn_interval_decay, max(0, current_wave - 1)))
 	wave_running = true
-	emit_signal("wave_started", current_wave) #incase I add something else
+	emit_signal("wave_started", current_wave)
 	if wave_label:
 		if wave_label.visible == false:
 			wave_label.visible = true
@@ -244,7 +241,6 @@ func _current_enemy_pool() -> Array[int]:
 		if current_wave >= unlock_at:
 			res.append(i)
 	return res
-
 
 func _alive_enemies() -> int:
 	if is_instance_valid(enemy_container):
@@ -271,7 +267,7 @@ func _wave_loop() -> void:
 			await get_tree().create_timer(wave_spawn_interval, false).timeout
 		else:
 			var tree = get_tree()
-			if tree == null or !is_instance_valid(self) or !is_inside_tree(): #overkill but this was driving me nuts
+			if tree == null or !is_instance_valid(self) or !is_inside_tree():
 				return
 			await tree.process_frame
 			if !is_instance_valid(self) or !is_inside_tree():
@@ -329,7 +325,6 @@ func _pick_enemy_scene() -> PackedScene:
 	var idx = unlocked[randi() % unlocked.size()]
 	return enemy_scenes[idx]
 
-
 func _spawn_one() -> void:
 	var scene_to_spawn = _pick_enemy_scene()
 	if scene_to_spawn == null:
@@ -363,7 +358,9 @@ func _exit_tree() -> void:
 	EventBus.score_final.emit(score)
 
 func _on_music_finished() -> void:
-	$Music.play()
+	if has_node("Music"):
+		$Music.play()
 
 func _on_audio_stream_player_finished() -> void:
-	$Cheers.play()
+	if has_node("Cheers"):
+		$Cheers.play()

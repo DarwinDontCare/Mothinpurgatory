@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Moth In Purgatory"
-run/main_scene="uid://bi8u8vl7ara8y"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+run/main_scene="uid://die4xmtx2ypd8"
+config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0.486849, 0.346711, 0, 1)
 boot_splash/image="uid://bucwdpkdkkxvt"
 config/icon="uid://bucwdpkdkkxvt"
@@ -29,6 +33,14 @@ AchievementDisplayQueue="*res://core/autoloads/achievement_display_queue.gd"
 
 window/size/resizable=false
 window/stretch/mode="canvas_items"
+
+[dotnet]
+
+project/assembly_name="Moth In Purgatory"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_rl_agents/plugin.cfg")
 
 [file_customization]
 

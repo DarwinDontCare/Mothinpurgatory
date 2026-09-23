@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3 uid="uid://du3uuiaokiexx"]
+[gd_scene format=3 uid="uid://du3uuiaokiexx"]
 
 [ext_resource type="Script" uid="uid://ba6w8urqn6r4c" path="res://player/player.gd" id="1_yw30f"]
 [ext_resource type="Texture2D" uid="uid://bg54nqqrgtwab" path="res://textures/assets/sprites/player/airborne/000.png" id="2_1s1yo"]
@@ -64,7 +64,7 @@
 [ext_resource type="Texture2D" uid="uid://dlg1wume44la7" path="res://textures/assets/sprites/player/double jump/005.png" id="27_35wys"]
 [ext_resource type="Texture2D" uid="uid://b7u8g5njym6tu" path="res://textures/assets/sprites/player/double jump/006.png" id="28_pjwc4"]
 [ext_resource type="Texture2D" uid="uid://dytkfgwchgdnb" path="res://textures/assets/sprites/player/double jump/007.png" id="29_or4qq"]
-[ext_resource type="PackedScene" uid="uid://bq1v87o3hxrb1" path="res://components/combat/health/hurtbox.tscn" id="51_w7j2h"]
+[ext_resource type="PackedScene" uid="uid://bq1v87o3hxrb1" path="res://components/combat/health/Hurtbox.tscn" id="51_w7j2h"]
 [ext_resource type="Texture2D" uid="uid://cko1nq1v2ctqy" path="res://textures/assets/sprites/player/stun/stun/000.png" id="58_anp34"]
 [ext_resource type="Texture2D" uid="uid://cv38w4pwftwbp" path="res://textures/assets/sprites/player/wake up/adjusted/000.png" id="58_do7qw"]
 [ext_resource type="Texture2D" uid="uid://oyaf21c1ucsj" path="res://textures/assets/sprites/player/wake up/adjusted/001.png" id="59_2h6tc"]
@@ -82,6 +82,7 @@
 [ext_resource type="Texture2D" uid="uid://d1mpo6lh018x3" path="res://textures/assets/sprites/player/wake up/adjusted/010.png" id="68_lufic"]
 [ext_resource type="Texture2D" uid="uid://dljwm8spnm174" path="res://textures/assets/sprites/player/wake up/adjusted/011.png" id="69_nxclr"]
 [ext_resource type="Script" uid="uid://d2t8278oey0lf" path="res://player/player_ui.gd" id="82_bd26m"]
+[ext_resource type="Script" uid="uid://bc7gte5gga3v8" path="res://player/ai_controller.gd" id="83_lufic"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s3g0c"]
 
@@ -137,7 +138,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("10_dx5ib")
 }],
-"loop": true,
+"loop": 1,
 "name": &"air",
 "speed": 12.0
 }, {
@@ -154,7 +155,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_x7c3f")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack",
 "speed": 12.0
 }, {
@@ -174,7 +175,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("19_xcnuv")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack alt",
 "speed": 12.0
 }, {
@@ -191,7 +192,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("19_6wior")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack down",
 "speed": 12.0
 }, {
@@ -208,7 +209,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("23_35wys")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack up",
 "speed": 12.0
 }, {
@@ -234,7 +235,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("15_n0b8q")
 }],
-"loop": false,
+"loop": 0,
 "name": &"dash",
 "speed": 16.0
 }, {
@@ -275,7 +276,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("58_do7qw")
 }],
-"loop": false,
+"loop": 0,
 "name": &"dead",
 "speed": 18.0
 }, {
@@ -304,7 +305,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("29_or4qq")
 }],
-"loop": false,
+"loop": 0,
 "name": &"double jump",
 "speed": 12.0
 }, {
@@ -321,7 +322,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gswnw")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 12.0
 }, {
@@ -344,7 +345,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fmu53")
 }],
-"loop": false,
+"loop": 0,
 "name": &"idle enter",
 "speed": 12.0
 }, {
@@ -370,7 +371,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("8_1so5t")
 }],
-"loop": false,
+"loop": 0,
 "name": &"jump",
 "speed": 18.0
 }, {
@@ -384,7 +385,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("25_55jnj")
 }],
-"loop": false,
+"loop": 0,
 "name": &"land",
 "speed": 12.0
 }, {
@@ -404,7 +405,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("11_uw77l")
 }],
-"loop": true,
+"loop": 1,
 "name": &"run",
 "speed": 12.0
 }, {
@@ -427,7 +428,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_s7qer")
 }],
-"loop": false,
+"loop": 0,
 "name": &"run_start",
 "speed": 12.0
 }, {
@@ -444,7 +445,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("61_kcq4v")
 }],
-"loop": false,
+"loop": 0,
 "name": &"stun",
 "speed": 12.0
 }, {
@@ -500,7 +501,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("69_nxclr")
 }],
-"loop": false,
+"loop": 0,
 "name": &"wake_up",
 "speed": 12.0
 }]
@@ -542,7 +543,7 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("hurtbox_collision", "camera", "step_player", "sfx_player") groups=["Player"]]
+[node name="Player" type="CharacterBody2D" unique_id=1674329246 node_paths=PackedStringArray("hurtbox_collision", "camera", "step_player", "sfx_player") groups=["Player"]]
 collision_mask = 4
 script = ExtResource("1_yw30f")
 stats = ExtResource("2_1so5t")
@@ -554,7 +555,7 @@ footstep_sounds = Array[AudioStream]([ExtResource("4_qavcc"), ExtResource("5_bd2
 step_player = NodePath("StepSound")
 sfx_player = NodePath("SFXSound")
 
-[node name="Animator" type="AnimatedSprite2D" parent="."]
+[node name="Animator" type="AnimatedSprite2D" parent="." unique_id=239414840]
 material = SubResource("ShaderMaterial_s3g0c")
 position = Vector2(0, -63.75)
 scale = Vector2(1, 1.02033)
@@ -563,7 +564,7 @@ animation = &"dead"
 frame = 11
 frame_progress = 1.0
 
-[node name="Health" type="Node" parent="." node_paths=PackedStringArray("flicker_sprite")]
+[node name="Health" type="Node" parent="." unique_id=79220816 node_paths=PackedStringArray("flicker_sprite")]
 script = ExtResource("2_qjkh3")
 max_health = 25
 tint_on_damage = true
@@ -572,15 +573,15 @@ health_regen_enabled = true
 iframe_duration = 0.8
 flicker_sprite = NodePath("../Animator")
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." unique_id=1517495429]
 script = ExtResource("3_g6k8r")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=327024379]
 position = Vector2(0, -45)
 shape = SubResource("CapsuleShape2D_mmwog")
 debug_color = Color(0, 0.651379, 0.0020059, 0.42)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1118601461]
 position = Vector2(0, -477)
 offset = Vector2(0, -181.695)
 zoom = Vector2(0.912, 0.912)
@@ -593,32 +594,32 @@ position_smoothing_speed = 9.0
 drag_vertical_enabled = true
 drag_vertical_offset = -1.0
 
-[node name="Hurtbox" parent="." instance=ExtResource("51_w7j2h")]
+[node name="Hurtbox" parent="." unique_id=1660437915 instance=ExtResource("51_w7j2h")]
 position = Vector2(0, -45)
 health_node_path = NodePath("../Health")
 is_player_box = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1361269666]
 shape = SubResource("CapsuleShape2D_n0b8q")
 
-[node name="StepSound" type="AudioStreamPlayer2D" parent="."]
+[node name="StepSound" type="AudioStreamPlayer2D" parent="." unique_id=324682058]
 volume_db = -18.828
 max_polyphony = 71
 bus = &"SFX"
 
-[node name="SFXSound" type="AudioStreamPlayer2D" parent="."]
+[node name="SFXSound" type="AudioStreamPlayer2D" parent="." unique_id=1674637750]
 pitch_scale = 1.38
 max_polyphony = 256
 bus = &"SFX"
 
-[node name="PlayerUI" type="CanvasLayer" parent="." node_paths=PackedStringArray("health_component", "health_bar", "degrader")]
+[node name="PlayerUI" type="CanvasLayer" parent="." unique_id=976527626 node_paths=PackedStringArray("health_component", "health_bar", "degrader")]
 visible = false
 script = ExtResource("82_bd26m")
 health_component = NodePath("../Health")
 health_bar = NodePath("Health")
 degrader = NodePath("Health/DegradeBar")
 
-[node name="Health" type="TextureProgressBar" parent="PlayerUI"]
+[node name="Health" type="TextureProgressBar" parent="PlayerUI" unique_id=32693165]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -631,7 +632,7 @@ value = 76.0
 nine_patch_stretch = true
 texture_progress = SubResource("GradientTexture1D_nxclr")
 
-[node name="Label" type="Label" parent="PlayerUI/Health"]
+[node name="Label" type="Label" parent="PlayerUI/Health" unique_id=1097032221]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -643,7 +644,7 @@ offset_bottom = 11.5
 grow_vertical = 2
 text = "HEALTH"
 
-[node name="DegradeBar" type="TextureProgressBar" parent="PlayerUI/Health"]
+[node name="DegradeBar" type="TextureProgressBar" parent="PlayerUI/Health" unique_id=1722051814]
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -657,7 +658,7 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture1D_bd26m")
 texture_progress = SubResource("GradientTexture1D_lufic")
 
-[node name="Panel" type="Panel" parent="PlayerUI/Health"]
+[node name="Panel" type="Panel" parent="PlayerUI/Health" unique_id=402249688]
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -670,3 +671,7 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bd26m")
+
+[node name="ai_controller" type="Node2D" parent="." unique_id=120289793]
+script = ExtResource("83_lufic")
+metadata/_custom_type_script = "uid://c60442u4t03it"
